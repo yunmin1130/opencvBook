@@ -10,7 +10,7 @@
 
  ![간략화한 VideoCapture 클래스](Code_4_1.PNG)
 
- ####ㄹVideoCapture::open()
+ #### VideoCapture::open()
 
  `VideoCapture::open()`을 이용해 동영상 파일을 불러오거나 카메라 입력 영상을 불러올 수 있다.
 
@@ -24,4 +24,4 @@ bool VideoCapture::open(const String& filename, int apiPreference = CAP_ANY);
  `apiPreference` | 사용할 비디오 캡처 API 백엔드
  반환값 | (`VideoCapture::open()`함수)열기가 성공하면 true, 실패하면 false
 
- 
+ 먼저 동영상 파일을 불러오는 방법이다. 동영상 파일을 불러오려면 `VideoCapture` 객체를 생성할 때 생성자에 동영상 파일 이름을 지정하거나 객체 생성 후 `VideoCapture::open()` 멤버 함수를 호출해야 한다. `filename` 인자에는 동영상 파일 확장자를 갖는 동영상 파일, 
