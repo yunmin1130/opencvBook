@@ -157,3 +157,4 @@ bool VideoCapture::open(int index, int apiPreference = CAP_ANY);
  29 | `camera_in()` 함수가 종료될 때 `cap` 변수가 소멸되면서 자동으로 카메라 장치를 닫기 때문에 명시적인 `cap.release()` 함수 호출은 생략
 
  위 코드의 `camera_in()` 함수 실행 결과는 다음과 같다. 
+ ![코드 실행 결과](Image_4_1.PNG)
