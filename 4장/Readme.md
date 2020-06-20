@@ -44,6 +44,8 @@ bool VideoCapture::open(int index, int apiPreference = CAP_ANY);
 
  카메라 또는 동영상 파일을 연 다음에는 `VideoCapture::isOpened()` 멤버 함수를 이용해 성공적으로 열었는지 확인할 수 있다. 카메라 장치 혹은 동영상 파일의 사용이 끝나면 `VideoCapture::release()` 멤버 함수를 호출하여 사용하던 자원을 해제할 수 있다. `VideoCapture::release()` 함수의 경우 소멸자에서 자동 호출한다.
 
+ #### VideoCapture::read()
+
  ```c++
  VideoCapture& VideoCapture::operator >> (Mat& image);
  bool VideoCapture::read(OutputArray image);
@@ -59,6 +61,8 @@ bool VideoCapture::open(int index, int apiPreference = CAP_ANY);
 `VideoCapture::grab()` | 카메라 장치에 다음 프레임을 획득하라는 명령을 내린다.
 `VideoCapture::retrieve()` | 획득한 프레임을 실제로 받아온다.
 
+ #### VideoCapture::get()
+
  ```c++
  double VideoCapture::get(int propId) const;
  ```
@@ -68,6 +72,8 @@ bool VideoCapture::open(int index, int apiPreference = CAP_ANY);
  반환값 | 지정한 속성 값. 만약 지정한 속성을 얻을 수 없으면 0을 반환한다.
 
  `VideoCapture::get()` 함수는 지정한 속성 ID에 해당하는 속성 값을 반환한다. 이 함수는 double 자료형으로 속성 값을 반환하는데, 만일 정수형 변수에 저장하려면 `cvRound()` 함수를 사용하는게 좋다.
+
+ #### VideoCapture::set()
 
   ```c++
  double VideoCapture::set(int propId, double value);
