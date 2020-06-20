@@ -325,3 +325,127 @@ bool VideoCapture::open(int index, int apiPreference = CAP_ANY);
  31 | 반전된 카메라 프레임 영상 `inversed`를 출력 동영상에 추가
 
  ![코드 실행 결과](Image_4_3.PNG)
+
+ ## 4.2 다양한 그리기 함수
+
+ 영상 출력 창 위에 직접 정보를 보여주기 위해 사용한다. 검출된 얼굴 영역을 빨간색 선으로 표시하거나 디버깅에 사용되는 값들을 직접 화면에 나타낼 수 있다.
+
+ ### 4.2.1 직선 그리기
+
+ #### line
+
+ ```c++
+ void line(InputOutputArray img, Point pt1, Point pt2, const Scalar& color, int thickness = 1, int line_type = LINE_8, int shift = 0);
+ void arrowedLine(InputOutputArray img, Point pt1, Point pt2, const Scalar& color, int thickness = 1, int line_type = LINE_8, int shift = 0, double tipLength = 0.1);
+ ```
+   변수 | 의미 
+ ---|:---
+ `img` | 입출력 영상
+ `pt1` | 시작점
+ `pt2` | 끝점
+ `color` | 선 색상(또는 밝기)
+ `thickness` | 선 두께
+ `lineType` | 선 타입, LINE_4, LINE_8, LINE_AA 중 하나를 지정
+ `shift` | 그리기 좌표 값의 축소 비율(오른쪽 비트 시프트>> 연산)
+ `tipLength` | 전체 직선 길이에 대한 화살표 길이의 비율
+
+ #### drawMarker
+
+ ```c++
+ void drawMarker(InputOutputArray img, Point position, const Scalar& color, int markerType = MARKER_CROSS, int markerSize = 20, int thickness = 1, int line_type = 8);
+ ```
+   변수 | 의미 
+ ---|:---
+ `img` | 입출력 영상
+ `position` | 마커 출력 위치
+ `color` | 선 색상
+ `markerType` | akzj 종류. MarkerTypes 열거형 상수 중 하나를 지정
+ `markerSize` | 마커 크기
+ `thickness` | 선 두께
+ `lineType` | 선 타입, LINE_4, LINE_8, LINE_AA 중 하나를 지정
+
+ ### 도형 그리기
+
+ #### rectangle
+
+ ```c++
+ void rectangle(InputOutputArray img, Point pt1, Point pt2, const Scalar& color, int thickness = 1, int line_type = LINE_8, int shift = 0);
+ void rectangle(InputOutputArray img, Rect rec, const Scalar& color, int thickness = 1, int line_type = LINE_8, int shift = 0, double tipLength = 0.1);
+ ```
+   변수 | 의미 
+ ---|:---
+ `img` | 입출력 영상
+ `pt1` | 사각형 꼭지점 좌표. `Point` 객체
+ `pt2` | `pt`과 대각 방향에 있는 사각형 꼭지점 좌표. `Point` 객체
+ `rec` | 사각형 위치 정보. `Rect` 객체
+ `color` | 사각형 색상(또는 밝기)
+ `thickness` | 사각형 외곽선 두께. 이 값이 음수(-1 또는 `FILLED`)이면 내부를 채움
+ `lineType` | 선 타입
+ `shift` | 그리기 좌표 값의 축소 비율(오른쪽 비트 시프트>> 연산)
+
+ #### circle
+
+ ```c++
+ void circle(InputOutputArray img, Point center, int radius, const Scalar& color, int thickness = 1, int line_type = LINE_8, int shift = 0);
+ ```
+   변수 | 의미 
+ ---|:---
+ `img` | 입출력 영상
+ `center` | 원의 중심
+ `radius` | 원의 반지름
+ `color` | 원 색상
+ `thickness` | 원 외곽선 두께. 이 값이 음수(-1 또는 `FILLED`)이면 내부를 채움
+ `lineType` | 선 타입
+ `shift` | 그리기 좌표 값의 축소 비율(오른쪽 비트 시프트>> 연산)
+
+ #### ellipse
+
+ ```c++
+ void ellipse(InputOutputArray img, Point center, Size axes, double angle, double startAngle, double endAngle, const Scalar& color, int thickness = 1, int line_type = LINE_8, int shift = 0);
+ ```
+   변수 | 의미 
+ ---|:---
+ `img` | 입출력 영상
+ `center` | 타원의 중심
+ `axes` | 타원의 반지름. `Size`(X축_반지름, y축_반지름)
+ `anble` | 타원 회전 각도(x축 기준, 시계 방향)
+ `startAngle` | 타원 호의 시작 각도(x축 기준, 시계 방향)
+ `endAngle` | 타원 호의 끝 각도(x축 기준, 시계 방향)
+ `color` | 타원 색상
+ `thickness` | 타원 외곽선 두께. 이 값이 음수(-1 또는 `FILLED`)이면 내부를 채움
+ `lineType` | 선 타입
+ `shift` | 그리기 좌표 값의 축소 비율(오른쪽 비트 시프트>> 연산)
+
+ #### poly/lines
+
+ ```c++
+ void polylines(InputOutputArray img, InputArrayOfArrays pts, bool isClosed, const Scalar& color, int thickness = 1, int line_type = LINE_8, int shift = 0);
+ ```
+   변수 | 의미 
+ ---|:---
+ `img` | 입출력 영상
+ `pts` | 다각형 외곽 점들의 좌표 배열. 주로 `vector<Point>` 타입
+ `isClosed` | 다각형이 닫혀 있는지를 나타내는 플래그. 이 값이 true 이면 다각형의 마지막 꼭지점과 첫 번째 꼭지점을 잇는 직선을 추가로 그린다.
+ `color` | 선 색상
+ `thickness` | 선 두께. 이 값이 음수(-1 또는 `FILLED`)이면 내부를 채움
+ `lineType` | 선 타입
+ `shift` | 그리기 좌표 값의 축소 비율(오른쪽 비트 시프트>> 연산)
+
+ ### 4.2.3 문자열 출력하기
+
+ #### putText
+
+ ```c++
+ void putText(InputOutputArray img, const String& text, Point org, int fontFace, double fontScale, const Scalar& color, int thickness = 1, int line_type = LINE_8, bool bottomLeftOrigin = false);
+ ```
+   변수 | 의미 
+ ---|:---
+ `img` | 입출력 영상
+ `text` | 출력할 문자열
+ `org` | 영상에서 문자열을 출력할 위치의 좌측 하단 좌표
+ `fontFace` | 폰트 종류. `cv::HersheyFonts`에서 선택
+ `fontScale` | 폰트 크기 확대/축소 비율
+ `color` | 문자열 색상
+ `thickness` | 문자열을 그릴 때 사용할 선 두께
+ `lineType` | 선 타입
+ `bottomLeftOrigin` | 이 값이 true이면 영상의 좌측 하단을 원점으로 간주. false 이면 좌측 상단이 원점
