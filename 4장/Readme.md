@@ -8,7 +8,31 @@
 
  OpenCV 에서는 `VideoCapture`라는 하나의 클래스를 이용하여 카메라 또는 동영상 파일로부터 정지된 영상 프레임을 받아 올 수 있다.
 
- ![간략화한 VideoCapture 클래스](Code_4_1.PNG)
+```c++
+class VideoCapture
+{
+public:
+    VideoCapture();
+    VideoCapture(const String& filename, int apiPreference = CAP_ANY);
+    VideoCapture(int index, int apiPreference = CAP_ANY);
+    virtual ~VideoCapture();
+
+    virtual bool open(const String& filename, int apiPreference = CAP_ANY);
+    virtual bool open(int index, int apiPreference = CAP_ANY);
+    virtual bool isOpened() const;
+    virtual bool release();
+
+    virtual bool grab();
+    virtual bool retrieve(Outputarray image, int flag = 0);
+
+    virtual VideoCapture& operator >> (Mat& image);
+    virtual bool read(OutputArray image);
+
+    virtual bool set(int propId, double value);
+    virtual double get(int propId) const;
+    ...
+}
+```
 
  #### VideoCapture::open()
 
@@ -85,3 +109,51 @@ bool VideoCapture::open(int index, int apiPreference = CAP_ANY);
  반환값 | 속성 지정이 가능하면 true, 아니면 false를 반환한다.
 
  `VideoCapture::set()` 함수는 지정한 속성 ID에 해당하는 속성 값을 `value`로 지정한다.
+
+ ### 4.1.2 카메라 입력 처리하기
+
+ ```c++
+ void camera_in()
+ {
+     VideoCapture cap(0);
+
+     if(!cap.isOpened()) {
+         cerr << "Camera open failed!" << endl;
+         return;
+     }
+
+     cout << "Frame width : " << cvRound(cap.get(CAP_PROP_FRAME_WIDTH)) << endl;
+     cout << "Frame height : " << cvRound(cap.get(CAP_PROP_FRAME_HEIGHT)) << endl;
+
+     Mat frame, inversed;
+     while (true) {
+         cap >> frame;
+         if (frame.empty())
+            break;
+
+         inversed = ~frame;
+
+         imshow("frame", frame);
+         imshow("inversed", inversed);
+
+         if (waitKey(10) == 27) // ESC key
+            break;
+     }
+
+     destroyAllWindows();
+ }
+ ```
+ 행 번호 | 의미
+ ---|:---
+ 3 | `VideoCapture` 객체를 생성하고, 컴퓨터에 연결된 기본 카메라를 사용하도록 설정
+ 5~8 | 카메라 장치가 성공적으로 열리지 않았따면 에러 메시지를 출력하고 함수를 종료
+ 10~11 | 카메라 속성 중에서 프레임 가로 크기와 세로 크기를 콘솔 창에 출력
+ 13 | `Mat` 타입의 변수 `frame`과 `inversed`를 선언
+ 15~17 | 카메라 장치로부터 한 프레임을 받아 와서 `frame` 변수에 저장. 만약 해당 프레임 영상이 비어 있으면 while 루프를 빠져나감
+ 19 | 현재 프레임을 반전하여 `inversed` 변수에 저장
+ 21~22 | `frame`과 `inversed`에 저장된 정지 영상을 화면에 출력
+ 24~25 | 사용자로부터 10ms 시간 동안 키보드 입력 대기. 만일 키값이 27 `ESC`면 while 루프를 빠져나감
+ 28 | 모든 창을 닫느다
+ 29 | `camera_in()` 함수가 종료될 때 `cap` 변수가 소멸되면서 자동으로 카메라 장치를 닫기 때문에 명시적인 `cap.release()` 함수 호출은 생략
+
+ 위 코드의 `camera_in()` 함수 실행 결과는 다음과 같다. 
