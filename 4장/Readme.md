@@ -359,7 +359,7 @@ bool VideoCapture::open(int index, int apiPreference = CAP_ANY);
  `img` | 입출력 영상
  `position` | 마커 출력 위치
  `color` | 선 색상
- `markerType` | akzj 종류. MarkerTypes 열거형 상수 중 하나를 지정
+ `markerType` | 마커 종류. MarkerTypes 열거형 상수 중 하나를 지정
  `markerSize` | 마커 크기
  `thickness` | 선 두께
  `lineType` | 선 타입, LINE_4, LINE_8, LINE_AA 중 하나를 지정
@@ -416,7 +416,7 @@ bool VideoCapture::open(int index, int apiPreference = CAP_ANY);
  `lineType` | 선 타입
  `shift` | 그리기 좌표 값의 축소 비율(오른쪽 비트 시프트>> 연산)
 
- #### poly/lines
+ #### polylines
 
  ```c++
  void polylines(InputOutputArray img, InputArrayOfArrays pts, bool isClosed, const Scalar& color, int thickness = 1, int line_type = LINE_8, int shift = 0);
@@ -449,3 +449,148 @@ bool VideoCapture::open(int index, int apiPreference = CAP_ANY);
  `thickness` | 문자열을 그릴 때 사용할 선 두께
  `lineType` | 선 타입
  `bottomLeftOrigin` | 이 값이 true이면 영상의 좌측 하단을 원점으로 간주. false 이면 좌측 상단이 원점
+
+## 4.5 유용한 OpenCV 기능
+
+ 개인적인 생각에는 이 부분이 4장에서 가장 유용하지 않나 생각이 된다. 
+
+### 4.5.1 마스크 연산
+
+ 마스크 연산에 필요한 마스크 영상은 입력 영상과 크기가 같고 깊이가 CV_8U 인 영상이다. 이 마스크 연산을 이용하면 영상에서 특정 영역에 대한 연산을 할 수 있다.
+
+#### setTo
+
+ ```c++
+ Mat& Mat::setTo(InputArray value, IntputArray mask = noArray());
+ ```
+ 변수 | 의미 
+ ---|:---
+ `value` | 행렬 원소에 설정할 값
+ `mask` | 마스크 행렬. 마스크 행렬의 원소가 0이 아닌 위치에서만 `value`값이 설정된다. 행렬 전체 원소 값을 설정하려면 `noArray()` 또는 `Mat()` 을 지정해야 한다.
+ 반환값 | `Mat`객체의 참조
+
+ `setTo()`함수는 영상 객체에 대해 마스크 영역에 대해서만 원하는 값으로 설정하는 함수다. 다음 코드는 이 함수에 대한 예제로 특정 마스크 영역만 노란색으로 바꾼 것이다.
+
+ ```c++
+ void mask_setTo()
+ {
+   Mat src = imread("lenna.bmp", IMREAD_COLOR);
+   Mat mask = imread("mask_smile.bmp", IMREAD_GRAYSCALE);
+
+   if (src.empty() || mask.empty()){
+     cerr << "Image load failed!" << endl;
+     return;
+   }
+
+   src.setTo(Scalar(0, 255, 255), mask);
+
+   imshow("src",src);
+   imshow("mask", mask);
+
+   waitKey(0);
+   destroyAllWindows();
+ }
+ ```
+
+![코드 실행 결과](Image_4_4.PNG)
+
+#### copyTo
+
+ ```c++
+ void Mat::copyTo(OutputArray m, InputArray mask) const;
+ ```
+ 변수 | 의미 
+ ---|:---
+ `m` | 복사본이 저장될 행렬. 만약 `*this` 행렬과 크기 및 타입이 다르면 메모리를 새로 할당한 후 픽셀 값을 복사한다.
+ `mask` | 마스크 행렬. 마스크 행렬의 원소가 0이 아닌 위치에서만 행렬 원소를 복사한다. `mask` 행렬은 `*this`와 같은 크기이고 깊이는 CV_8U이어야 한다.
+
+ `copyTo()`함수는 마스크 영역에 대해서만 현재 영상 객체의 값을 `m` 행렬에 복사하는 함수다. 다음 코드는 이 함수에 대한 예제로 특정 마스크 영역만 복사한 것이다.
+
+ ```c++
+ void mask_copyTo()
+ {
+   Mat src = imread("airplane.bmp", IMREAD_COLOR);
+   Mat mask = imread("mask_plane.bmp", IMREAD_GRAYSCALE);
+   Mat dst = imread("field.bmp", IMREAD_COLOR);
+
+   if (sr.empty() || mask.empty() || dst.empty()) {
+     cerr << "Image load failed!" << endl;
+     return;
+   }
+
+   src.copyTo(dst, mask);
+
+   imshow("dst", dst);
+
+   waitKey(0);
+   destroyAllWindows();
+ }
+ ```
+
+ ![코드 실행 결과](Image_4_5.PNG)
+
+ ### 4.5.2 연산 시간 측정
+
+ 대부분의 영상 처리 시스템은 대용량의 데이터를 갖고 복잡한 알고리즘 연산을 하기 때문에 알고리즘 연산 시간을 측정하여 최적화를 하는 작업을 한다. 이를 위해 OpenCV 라이브러리에는 연산 시간 측정을 위한 함수를 제공한다.
+
+ #### getTickCount, getTickFrequenscy
+
+ ```c++
+ int64 getTickCount(void)
+ ```
+ 변수 | 의미 
+ ---|:---
+ 반환값 | 시스템의 현재 틱(tick) 횟수
+
+ ```c++
+ double getTickFrequency(void)
+ ```
+ 변수 | 의미
+ ---|:---
+ 반환값 | 시스템의 초당 틱 횟수
+
+ `getTickCount()` 함수와 `getTickFrequency()` 함수를 이용하면 연산 시간 측정을 할 수 있는데 다음 코드는 이를 이용한 예제이다.
+
+ ```c++
+ int64 t1 = getTickCount();
+
+ my_func(); // 연산 시간을 측정하기 원하는 알고리즘
+
+ int64 t2 = getTickCount();
+ double ms = (t2 - t1) * 1000 / getTickFrequency(); // ms 단위로 연산 시간을 저장하기 위해 1000을 곱한다.
+ ```
+
+ 특정 연산 전후로 틱 횟수를 측정하여 연산 시간에 사용된 틱 횟수를 측정한 다음 `getTickFrequency()`함수를 이용해 초당 틱 횟수를 나누면 연산 시간을 측정할 수 있다.
+
+ #### TickMeter 클래스
+
+ 위의 연산 시간 측정 방법이 사용자에게 불친절하다는 이유로 OpenCV 3.2.0 버전부터 연산 시간 측정을 위한 특정 클래스를 제공하기 시작했다.
+
+ ```c++
+ class TickMeter
+ {
+   public:
+     TickMeter();
+
+     void start();
+     void stop();
+     void reset();
+
+     double getTimeMicro() const;
+     double getTiemMilli() const;
+     double getTimeSec() const;
+     int64 getCounter() const;
+     ...
+ }
+ ```
+ 함수 | 의미
+ ---|:---
+ `TickMeter::start()` | 시간 측정을 시작할 때 사용
+ `TickMeter::stop()` | 시간 측정을 정지할 때 사용
+ `TickMeter::reset()` | 새롭게 연산 시간을 측정하고자 할 때 사용. 모든 멤버 변수를 초기화
+ `TickMeter::getTimeMicro()` | 연산 시간을 마이크로 초 단위로 반환
+ `TickMeter::getTimeMilli()` | 연산 시간을 밀리초 단위로 반환
+ `TickMeter::getTimeSec()` | 연산 시간을 초 단위로 반환
+ `TickMeter::getCounter()` | 시간 측정을 수행한 횟수를 반환
+
+ ### 유용한 OpenCV 함수 사용법
