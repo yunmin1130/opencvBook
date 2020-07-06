@@ -29,7 +29,7 @@
   - [필터링](7장/filter.md)
   - [블러링](7장/blur.md)
   - [샤프닝](7장/sharpening.md)
-  - [잡음 제거](7장/noisereduction.md)
+  - [잡음 제거](7장/noiseReduction.md)
 8. 영상의 기하학적 변환
   - [어파인 변환](8장/affine.md)
     - 어파인 변환
