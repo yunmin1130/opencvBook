@@ -6,6 +6,7 @@
 - 특정 임계값(Threshold) 기준으로 분리됨
 
 **예시**
+
 ![](images/binarization_example_1.png)
 
 ## 전역 이진화 global binarization
@@ -15,6 +16,7 @@
 - 균일하지 않은 조명 등의 영상에서는 객체와 배경이 분리되지 않음
 
 **예시**
+
 ![](images/binarization_example_3.png)
 
 임계값 설정:
@@ -47,6 +49,7 @@ retval, dst = cv.threshold(src, thresh, maxval, type[, dst])
 ```
 
 **예시**
+
 ![](images/binarization_example_2.png)
 
 ### 부등호 연산자

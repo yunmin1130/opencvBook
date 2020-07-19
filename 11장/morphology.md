@@ -9,6 +9,7 @@
 - 모폴로지 연산의 동작을 결정하는 작은 크기의 행렬
 
 **예시**
+
 ![](images/binarization_example_4.png)
 
 기본적인 연산 기법은 `구조 요소를 영상 전체에 대해 스캔`하며 계산
@@ -23,6 +24,7 @@
   - 구조 요소와 객체 영역이 한 픽셀이라도 만날 경우, 고정점 위치 픽셀 = 255
 
 **예시**
+
 ![](images/binarization_example_5.png)
 
 ### 구조 요소 행렬
@@ -90,6 +92,7 @@ dst = cv.dilate(src, kernel[, dst[, anchor[, iterations[, borderType[, borderVal
 ```
 
 **예시**
+
 ![](images/binarization_example_6.png)
 
 ## 이진 영상의 열기와 닫기
@@ -106,6 +109,7 @@ OpenCV에서는 morphologyEx()로 구현됨
   - MORPH_CLOSE 상수 사용
 
 **예시**
+
 ![](images/binarization_example_7.png)
 
 ### morphologyEx
@@ -132,4 +136,5 @@ dst = cv.morphologyEx(src, op, kernel[, dst[, anchor[, iterations[, borderType[,
 ```
 
 **예시**
+
 ![](images/binarization_example_8.png)
