@@ -6,18 +6,11 @@
 사용할 영상 간 일정 비율 이상의 `겹치는 영역` 존재   
 위치를 분간 가능한 `유효한 특징점`이 존재해야 함   
 파노라마 영상 제작 순서   
-- 특징점 검출 -> 매칭 수행을 통한 호모그래피 구하기
+- 특징점 검출 -> 매칭 수행을 통한 호모그래피 구하기 -> 호모그래피 행렬을 통한 입력 영상 변형 -> 이어 붙이기(블랜딩 처리 포함)
 
-[FAST](https://docs.opencv.org/master/d5/d51/group__features2d__main.html#ga816d870cbdca71c6790c71bdf17df099)
-
-**코드:**
-c++:
-
-```cpp
-void FAST(InputArray image, std::vector<KeyPoint> & keypoints,
-       int threshold, bool nonmaxSuppression = true);
-```
+[Stitcher](https://docs.opencv.org/master/d2/d8d/classcv_1_1Stitcher.html)
 
 **예시**
 
-![](images/stitching_example_1.png)
+![적용 전](images/stitching_example_1.png)
+![적용 후](images/stitching_example_2.png)
