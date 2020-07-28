@@ -10,17 +10,20 @@
   - 이진 기술자끼리는 해밍 거리로 계산   
 ![](images/matching_example_1.png)
 
-
-
-
 ## 전수 조사 방법
+
+[BFMatcher](https://docs.opencv.org/master/d3/da1/classcv_1_1BFMatcher.html)
+
+전수 조사를 통해 확인   
+특징점 개수가 늘어날수록 거리 계산 횟수가 급격하게 늘어남
 
 ## FLANN 기반 방법
 
+[FlannBasedMatcher](https://docs.opencv.org/master/dc/de2/classcv_1_1FlannBasedMatcher.html)
 
+근사화된 최근방 이웃(ANN: Approximate Nearest Neighbors) 사용   
+가장 거리가 작은 특징점을 찾지 못할 수 있으나 `매우 빠름`   
+L2 Norm 거리 측정방식 사용 -> 이진 기술자에서는 사용 불가
 
-
-- Brute-Force: 모든 기술자 집합의 거리를 조사
-- Fast Library approximate nearest neighbors: 근사화된 최근방 이웃을 구현한 라이브러리
 
 Homography: 3차원 공간상의 평면을 서로 다른 시점에서 바라봤을 때 획득되는 영상 사이의 관계. 투시 변환과 같다.
