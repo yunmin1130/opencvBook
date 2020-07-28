@@ -28,14 +28,14 @@ ORB, BRIEF, AKAZE 알고리즘 -> NORM_HAMMING 상수 사용
 L2 Norm 거리 측정방식 사용 -> 이진 기술자에서는 사용 불가
 
 **키포인트 매칭 예시**
-![](!images/matching_example_2.png)
+![](images/matching_example_2.png)
 
 ## 호모그래피
 
 [findHomography](https://docs.opencv.org/master/d9/d0c/group__calib3d.html#gafd3ef89257e27d5235f4467cbb1b6a63)
 
 3차원 공간상의 평면을 서로 다른 시점에서 바라봤을 때 획득되는 영상 사이의 관계 == 투시 변환   
-![](!images/matching_example_3.png)
+![](images/matching_example_3.png)
 
 **코드:**
 c++:
@@ -52,8 +52,8 @@ Mat cv::findHomography	(	InputArray 	srcPoints,
 ```
 
 두 평면 위에 있는 점들을 투영 변환하는 3X3 호모그래피 행렬 반환함   
-![](!images/matching_example_4.png)
+![](images/matching_example_4.png)
 Method 인자에 0을 지정 시 입력 점과 출력 점을 모두 사용하는 최소자승법으로 계산 -> 이상치(Outlier)가 많을 경우 제대로 동작 안함
 - Method를 LMEDS, RANSAC, RHO로 설정하면 정상 작동
 - LMEDS는 이상치 50% 이하, RANSAC, RHO는 이상치 50% 이상에서도 동작을 잘 함   
-![](!images/matching_example_5.png)
+![](images/matching_example_5.png)
