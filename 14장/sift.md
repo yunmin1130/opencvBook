@@ -56,6 +56,7 @@ ORB : 이진수로 구성된 기술자를 사용하는 알고리즘(FAST + BRIEF
 detect(), compute(), detectAndCompute() 가상 멤버 함수 포함
 - 상속 받는 구현 클래스에서 실제 구현됨
 - 각 구현 클래스 별로 사용 가능한 가상 멤버 함수가 다름
+
 ![](images/sift_example_4.png)
 
 **예시**
