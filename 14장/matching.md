@@ -51,9 +51,9 @@ Mat cv::findHomography	(	InputArray 	srcPoints,
                           )	
 ```
 
-The function finds and returns the perspective transformation H between the source and the destination planes:
-
-si⎡⎣⎢x′iy′i1⎤⎦⎥∼H⎡⎣⎢xiyi1⎤⎦⎥
-so that the back-projection error
-
-∑i(x′i−h11xi+h12yi+h13h31xi+h32yi+h33)2+(y′i−h21xi+h22yi+h23h31xi+h32yi+h33)2
+두 평면 위에 있는 점들을 투영 변환하는 3X3 호모그래피 행렬 반환함   
+![](!images/matching_example_4.png)
+Method 인자에 0을 지정 시 입력 점과 출력 점을 모두 사용하는 최소자승법으로 계산 -> 이상치(Outlier)가 많을 경우 제대로 동작 안함
+- Method를 LMEDS, RANSAC, RHO로 설정하면 정상 작동
+- LMEDS는 이상치 50% 이하, RANSAC, RHO는 이상치 50% 이상에서도 동작을 잘 함   
+![](!images/matching_example_5.png)
