@@ -15,7 +15,9 @@
 [BFMatcher](https://docs.opencv.org/master/d3/da1/classcv_1_1BFMatcher.html)
 
 전수 조사를 통해 확인   
-특징점 개수가 늘어날수록 거리 계산 횟수가 급격하게 늘어남
+특징점 개수가 늘어날수록 거리 계산 횟수가 급격하게 늘어남   
+SIFT, SURF, KAZE 알고리즘 -> NORM_L2, NORM_L1 상수 사용   
+ORB, BRIEF, AKAZE 알고리즘 -> NORM_HAMMING 상수 사용
 
 ## FLANN 기반 방법
 
@@ -25,5 +27,33 @@
 가장 거리가 작은 특징점을 찾지 못할 수 있으나 `매우 빠름`   
 L2 Norm 거리 측정방식 사용 -> 이진 기술자에서는 사용 불가
 
+**키포인트 매칭 예시**
+![](!images/matching_example_2.png)
 
-Homography: 3차원 공간상의 평면을 서로 다른 시점에서 바라봤을 때 획득되는 영상 사이의 관계. 투시 변환과 같다.
+## 호모그래피
+
+[findHomography](https://docs.opencv.org/master/d9/d0c/group__calib3d.html#gafd3ef89257e27d5235f4467cbb1b6a63)
+
+3차원 공간상의 평면을 서로 다른 시점에서 바라봤을 때 획득되는 영상 사이의 관계 == 투시 변환   
+![](!images/matching_example_3.png)
+
+**코드:**
+c++:
+
+```cpp
+Mat cv::findHomography	(	InputArray 	srcPoints,
+                          InputArray 	dstPoints,
+                          int 	method = 0,
+                          double 	ransacReprojThreshold = 3,
+                          OutputArray 	mask = noArray(),
+                          const int 	maxIters = 2000,
+                          const double 	confidence = 0.995 
+                          )	
+```
+
+The function finds and returns the perspective transformation H between the source and the destination planes:
+
+si⎡⎣⎢x′iy′i1⎤⎦⎥∼H⎡⎣⎢xiyi1⎤⎦⎥
+so that the back-projection error
+
+∑i(x′i−h11xi+h12yi+h13h31xi+h32yi+h33)2+(y′i−h21xi+h22yi+h23h31xi+h32yi+h33)2
