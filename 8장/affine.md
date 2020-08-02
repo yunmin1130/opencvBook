@@ -2,20 +2,22 @@
 
 ## 어파인 변환
 
-- 영상의 기하학적 변환이며, 영상을 구성하는 픽셀의 배치 구조를 변경함으로써 전체 영상의 모양을 바꾸는 작업
-- 기하학적 변환은 픽셀 값은 유지하나, 위치를 변경하는 작업으로, 고유의 함수 형태로 표현 가능
-- 어파인 변환은 영상을 평행이동, 회전, 크기 변환을 하는 변환 종류의 통칭
-- 6개의 파라미터가 필요하며, 이를 2X3 행렬로 변환한 것이 **어파인 변환 행렬**
+영상의 기하학적 변환이며, 영상을 구성하는 픽셀의 배치 구조를 변경함으로써 전체 영상의 모양을 바꾸는 작업   
+기하학적 변환은 픽셀 값은 유지하나, 위치를 변경하는 작업으로, 고유의 함수 형태로 표현 가능   
+어파인 변환은 영상을 평행이동, 회전, 크기 변환을 하는 변환 종류의 통칭   
+6개의 파라미터가 필요하며, 이를 2X3 행렬로 변환한 것이 `어파인 변환 행렬` 
   - 어파인 변환은 직선의 상태 등은 유지되어야 하므로, 평행사변형 이동이라 볼 수 있음
   - 평행사변형 이동이므로, 좌표는 3개 필요함((x1, y1), (x2, y2), (x3, y3))
   - 나머지 1개 좌표는 평행사변형이므로 자동 결정
-- [getAffineTransform()](https://docs.opencv.org/master/da/d54/group__imgproc__transform.html#ga8f6d378f9f8eebb5cb55cd3ae295a999) 함수 제공
+
+[getAffineTransform()](https://docs.opencv.org/master/da/d54/group__imgproc__transform.html#ga8f6d378f9f8eebb5cb55cd3ae295a999) 함수 제공
 - 참조 : [Affine Transformations](https://docs.opencv.org/master/d4/d61/tutorial_warp_affine.html)
 
 **2X3 어파인 변환 행렬의 형태:**
-```
-대충 어파인 함수가 들어갈 자리, 2X3이 나오는 과정을 보여주기
-```
+
+기본 이동 수식: ![](images/affine_example_1.png)   
+수학적 편의로 변경: ![](images/affine_example_2.png)
+
 
 c++:
 
